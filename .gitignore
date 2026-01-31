@@ -1,0 +1,8 @@
+django_test.egg-info/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
