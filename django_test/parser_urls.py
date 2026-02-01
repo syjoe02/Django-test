@@ -20,41 +20,42 @@ def attach_urls(scan: ScanResult, endpoints: List[EndpointMeta]) -> List[Endpoin
 def _collect_all_urls(project_root: Path) -> Dict[str, str]:
     url_map: Dict[str, str] = {}
 
-    for url_file in project_root.rglob("urls.py"):
-        if "site-packages" in str(url_file):
-            continue
-        
-        try:
-            tree = ast.parse(url_file.read_text(encoding="utf-8"))
-        except SyntaxError:
-            continue
+    config_urls = project_root / "config" / "urls.py"
+    if not config_urls.exists():
+        return url_map
 
-        _parse_urls_file(
-            tree=tree,
-            project_root=project_root,
-            prefix="",
-            url_map=url_map,
-        )
+    tree = ast.parse(config_urls.read_text(encoding="utf-8"))
+
+    _parse_urls_file(
+        tree=tree,
+        current_file=config_urls,
+        project_root=project_root,
+        prefix="",
+        url_map=url_map,
+    )
 
     return url_map
 
 # Parsing logic
 def _parse_urls_file(
     tree: ast.Module,
+    current_file: Path,
     project_root: Path,
     prefix: str,
     url_map: Dict[str, str],
 ):
     for node in tree.body:
-        if isinstance(node, ast.Assign):
-            for target in node.targets:
-                if isinstance(target, ast.Name) and target.id == "urlpatterns":
-                    _parse_urlpatterns_list(
-                        node=node.value,
-                        project_root=project_root,
-                        url_map=url_map,
-                        prefix=prefix,
-                    )
+        if not isinstance(node, ast.Assign):
+            continue
+
+        for target in node.targets:
+            if isinstance(target, ast.Name) and target.id == "urlpatterns":
+                _parse_urlpatterns_list(
+                    node.value,
+                    project_root=project_root,
+                    prefix=prefix,
+                    url_map=url_map,
+                )
 
 def _parse_urlpatterns_list(
     node: ast.AST,
@@ -88,6 +89,7 @@ def _parse_urlpatterns_list(
 
                 _parse_urls_file(
                     tree=sub_tree,
+                    current_file=include_path,
                     project_root=project_root,
                     url_map=url_map,
                     prefix=prefix + url,
