@@ -1,5 +1,6 @@
 django_test.egg-info/
 .env
+venv/
 
 # Python
 __pycache__/

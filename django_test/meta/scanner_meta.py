@@ -11,7 +11,8 @@ class AppMeta:
     serializers: List[Path]
     services: List[Path]
     usecases: List[Path]
-    models: List[Path]
+    entities: List[Path]
+    orm_models: List[Path] 
 
 
 @dataclass

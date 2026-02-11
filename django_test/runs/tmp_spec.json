@@ -1,0 +1,899 @@
+{
+  "spec_version": "1.0",
+  "project": {
+    "name": "Hackonomics-2026",
+    "framework": "Django REST Framework",
+    "settings_module": "config.settings",
+    "root_path": "/Users/joe/Desktop/hackerton2026/Hackonomics-2026"
+  },
+  "apps": [
+    {
+      "name": "exchange",
+      "path": "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/exchange",
+      "layers": {
+        "entities": [],
+        "orm_models": [],
+        "usecases": [],
+        "services": [
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/exchange/application/services.py"
+        ]
+      }
+    },
+    {
+      "name": "meta",
+      "path": "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/meta",
+      "layers": {
+        "entities": [],
+        "orm_models": [],
+        "usecases": [],
+        "services": [
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/meta/application/services.py"
+        ]
+      }
+    },
+    {
+      "name": "simulation",
+      "path": "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/simulation",
+      "layers": {
+        "entities": [
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/simulation/domain/entities.py"
+        ],
+        "orm_models": [],
+        "usecases": [
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/simulation/application/usecases/compare_investment_usecase.py"
+        ],
+        "services": []
+      }
+    },
+    {
+      "name": "accounts",
+      "path": "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/accounts",
+      "layers": {
+        "entities": [
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/accounts/domain/entities.py"
+        ],
+        "orm_models": [
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/accounts/adapters/orm/models.py"
+        ],
+        "usecases": [
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/accounts/application/usecases/event_router.py",
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/accounts/application/usecases/get_account_usecase.py",
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/accounts/application/usecases/get_exchange_rate_usecase.py",
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/accounts/application/usecases/update_account_usecase.py"
+        ],
+        "services": []
+      }
+    },
+    {
+      "name": "user_calendar",
+      "path": "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/user_calendar",
+      "layers": {
+        "entities": [
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/user_calendar/domain/entities.py"
+        ],
+        "orm_models": [
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/user_calendar/adapters/orm/models.py"
+        ],
+        "usecases": [],
+        "services": [
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/user_calendar/application/services/calendar_advisor_service.py",
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/user_calendar/application/services/calendar_event_service.py",
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/user_calendar/application/services/category_service.py",
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/user_calendar/application/services/user_calendar_service.py"
+        ]
+      }
+    },
+    {
+      "name": "events",
+      "path": "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/events",
+      "layers": {
+        "entities": [
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/events/domain/entities.py"
+        ],
+        "orm_models": [],
+        "usecases": [],
+        "services": []
+      }
+    },
+    {
+      "name": "authentication",
+      "path": "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/authentication",
+      "layers": {
+        "entities": [],
+        "orm_models": [],
+        "usecases": [],
+        "services": [
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/authentication/application/services/authentication_service.py",
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/authentication/application/services/login_service.py",
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/authentication/application/services/logout_service.py",
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/authentication/application/services/oauth_service.py",
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/authentication/application/services/refresh_service.py",
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/authentication/application/services/signup_service.py",
+          "/Users/joe/Desktop/hackerton2026/Hackonomics-2026/authentication/application/services/verify_service.py"
+        ]
+      }
+    }
+  ],
+  "endpoints": [
+    {
+      "app": "exchange",
+      "view": "UsdToCurrencyAPIView",
+      "method": "GET",
+      "url": "/api/exchange/usd-to/<str:currency>/",
+      "path_params": [
+        {
+          "name": "currency",
+          "type": "str"
+        }
+      ],
+      "serializer": "ExchangeRateResponseSerializer",
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": true
+      }
+    },
+    {
+      "app": "exchange",
+      "view": "ExchangeHistoryAPIView",
+      "method": "GET",
+      "url": "/api/exchange/history/",
+      "path_params": [],
+      "serializer": "EmptySerializer",
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "meta",
+      "view": "CountryListAPIView",
+      "method": "GET",
+      "url": "/api/meta/countries/",
+      "path_params": [],
+      "serializer": "CountrySerializer",
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": true,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "meta",
+      "view": "CountryDetailAPIView",
+      "method": "GET",
+      "url": "/api/meta/countries/<str:code>/",
+      "path_params": [
+        {
+          "name": "code",
+          "type": "str"
+        }
+      ],
+      "serializer": "CountrySerializer",
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": true
+      }
+    },
+    {
+      "app": "simulation",
+      "view": "CompareDcaVsDepositAPIView",
+      "method": "POST",
+      "url": "/api/simulation/compare/dca-vs-deposit/",
+      "path_params": [],
+      "serializer": "CompareSimulationRequestSerializer",
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        },
+        "failure": [
+          {
+            "case": "empty_payload",
+            "input": {},
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          },
+          {
+            "case": "wrong_type",
+            "input": {
+              "__example_field__": "invalid_type"
+            },
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "has_body": true,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "accounts",
+      "view": "AccountView",
+      "method": "GET",
+      "url": "/api/account/me/",
+      "path_params": [],
+      "serializer": "AccountUpdateSerializer",
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "accounts",
+      "view": "MyExchangeRateAPIView",
+      "method": "GET",
+      "url": "/api/account/me/exchange-rate/",
+      "path_params": [],
+      "serializer": "EmptySerializer",
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "user_calendar",
+      "view": "UserCalendarInitAPIView",
+      "method": "POST",
+      "url": "/api/calendar/init/",
+      "path_params": [],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        },
+        "failure": [
+          {
+            "case": "empty_payload",
+            "input": {},
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          },
+          {
+            "case": "wrong_type",
+            "input": {
+              "__example_field__": "invalid_type"
+            },
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "has_body": true,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "user_calendar",
+      "view": "GoogleCalendarOAuthLoginAPIView",
+      "method": "GET",
+      "url": "/api/calendar/oauth/login/",
+      "path_params": [],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "user_calendar",
+      "view": "GoogleCalendarOAuthCallbackAPIView",
+      "method": "GET",
+      "url": "/api/calendar/oauth/callback/",
+      "path_params": [],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "user_calendar",
+      "view": "MyCalendarAPIView",
+      "method": "GET",
+      "url": "/api/calendar/me/",
+      "path_params": [],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "user_calendar",
+      "view": "CategoryCreateAPIView",
+      "method": "POST",
+      "url": "/api/calendar/categories/create/",
+      "path_params": [],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        },
+        "failure": [
+          {
+            "case": "empty_payload",
+            "input": {},
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          },
+          {
+            "case": "wrong_type",
+            "input": {
+              "__example_field__": "invalid_type"
+            },
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "has_body": true,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "user_calendar",
+      "view": "CategoryListAPIView",
+      "method": "GET",
+      "url": "/api/calendar/categories/",
+      "path_params": [],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": true,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "user_calendar",
+      "view": "CategoryDeleteAPIView",
+      "method": "DELETE",
+      "url": "/api/calendar/categories/<uuid:category_id>/",
+      "path_params": [
+        {
+          "name": "category_id",
+          "type": "uuid"
+        }
+      ],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": true
+      }
+    },
+    {
+      "app": "user_calendar",
+      "view": "CalendarEventCreateAPIView",
+      "method": "POST",
+      "url": "/api/calendar/events/create/",
+      "path_params": [],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        },
+        "failure": [
+          {
+            "case": "empty_payload",
+            "input": {},
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          },
+          {
+            "case": "wrong_type",
+            "input": {
+              "__example_field__": "invalid_type"
+            },
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "has_body": true,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "user_calendar",
+      "view": "CalendarEventListAPIView",
+      "method": "GET",
+      "url": "/api/calendar/events/",
+      "path_params": [],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": true,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "user_calendar",
+      "view": "CalendarEventDetailAPIView",
+      "method": "DELETE",
+      "url": "/api/calendar/events/<uuid:event_id>/",
+      "path_params": [
+        {
+          "name": "event_id",
+          "type": "uuid"
+        }
+      ],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": true
+      }
+    },
+    {
+      "app": "user_calendar",
+      "view": "CalendarAdviceView",
+      "method": "POST",
+      "url": "/api/calendar/advisor/",
+      "path_params": [],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        },
+        "failure": [
+          {
+            "case": "empty_payload",
+            "input": {},
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          },
+          {
+            "case": "wrong_type",
+            "input": {
+              "__example_field__": "invalid_type"
+            },
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "has_body": true,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "authentication",
+      "view": "LoginAPIView",
+      "method": "POST",
+      "url": "/api/auth/login/",
+      "path_params": [],
+      "serializer": "LoginRequestSerializer",
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        },
+        "failure": [
+          {
+            "case": "empty_payload",
+            "input": {},
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          },
+          {
+            "case": "wrong_type",
+            "input": {
+              "__example_field__": "invalid_type"
+            },
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "has_body": true,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "authentication",
+      "view": "GoogleLoginAPIView",
+      "method": "GET",
+      "url": "/api/auth/google/login/",
+      "path_params": [],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "authentication",
+      "view": "GoogleCallbackAPIView",
+      "method": "GET",
+      "url": "/api/auth/google/callback/",
+      "path_params": [],
+      "serializer": null,
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "authentication",
+      "view": "LogoutAPIView",
+      "method": "POST",
+      "url": "/api/auth/logout/",
+      "path_params": [],
+      "serializer": "EmptySerializer",
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        },
+        "failure": [
+          {
+            "case": "empty_payload",
+            "input": {},
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          },
+          {
+            "case": "wrong_type",
+            "input": {
+              "__example_field__": "invalid_type"
+            },
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "has_body": true,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "authentication",
+      "view": "SignupAPIView",
+      "method": "POST",
+      "url": "/api/auth/signup/",
+      "path_params": [],
+      "serializer": "SignupRequestSerializer",
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        },
+        "failure": [
+          {
+            "case": "empty_payload",
+            "input": {},
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          },
+          {
+            "case": "wrong_type",
+            "input": {
+              "__example_field__": "invalid_type"
+            },
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "has_body": true,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "authentication",
+      "view": "RefreshAPIView",
+      "method": "POST",
+      "url": "/api/auth/refresh/",
+      "path_params": [],
+      "serializer": "EmptySerializer",
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        },
+        "failure": [
+          {
+            "case": "empty_payload",
+            "input": {},
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          },
+          {
+            "case": "wrong_type",
+            "input": {
+              "__example_field__": "invalid_type"
+            },
+            "expected_status": 400,
+            "assertions": [
+              "status_code == expected_status"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "has_body": true,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    },
+    {
+      "app": "authentication",
+      "view": "MeAPIView",
+      "method": "GET",
+      "url": "/api/auth/me/",
+      "path_params": [],
+      "serializer": "EmptySerializer",
+      "requires_auth": true,
+      "test_cases": {
+        "success": {
+          "expected_status": 200,
+          "assertions": [
+            "status_code == expected_status",
+            "response is valid JSON"
+          ]
+        }
+      },
+      "metadata": {
+        "has_body": false,
+        "is_list_endpoint": false,
+        "is_detail_endpoint": false
+      }
+    }
+  ],
+  "conventions": {
+    "success_default_status": 200,
+    "invalid_payload_status": 400,
+    "auth_header": "Authorization: Bearer <token>"
+  }
+}
